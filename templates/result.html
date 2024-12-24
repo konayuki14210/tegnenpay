@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TEGNEN Pay | 支払結果</title>
+  </head>
+  <body>
+    <!-- ヘッダー -->
+    <div class="header">TEGNEN Pay | 支払結果</div>
+
+    <!-- 結果表示 -->
+    <div class="container result-container fade-in">
+      <div class="d-flex justify-content-center">
+        <div class="balance-display">
+          <p class="balance-description">お支払い金額</p>
+          <p class="balance-text">{{ input_amount | tojson }} 円</p>
+          <h1 class="success-message">支払い完了！</h1>
+        </div>
+      </div>
+
+      <!-- 戻るボタン -->
+      <a href="{{ url_for('index') }}">
+        <button class="btn btn-primary back-button">戻る</button>
+      </a>
+    </div>
+
+    <!-- 決済音の再生 -->
+    <audio
+      id="payment-sound"
+      src="../static/payment-success-sound.mp3"
+      preload="auto"
+    ></audio>
+
+    <!-- 絵文字を降らせるコンテナ -->
+    <div id="emoji-container"></div>
+
+    <script>
+      // ページ読み込み時に決済音を再生
+      window.onload = function () {
+        document.getElementById('payment-sound').play();
+
+        // 絵文字のリスト
+        const emojis = ['🐱', '❤️', '🐶'];
+
+        // 絵文字コンテナ
+        const emojiContainer = document.getElementById('emoji-container');
+        const numberOfEmojis = 100; // 表示する絵文字の数
+
+        // 絵文字をランダムに生成する関数
+        for (let i = 0; i < numberOfEmojis; i++) {
+          const emoji = document.createElement('span');
+          emoji.classList.add('emoji');
+          emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)]; // ランダムに絵文字を選択
+          emoji.style.left = `${Math.random() * 100}vw`; // 左位置をランダムに
+          emoji.style.animationDuration = `${Math.random() * 5 + 5}s`; // アニメーション時間をランダムに
+          emoji.style.fontSize = `${Math.random() * 1.5 + 1.5}rem`; // 絵文字のサイズをランダムに
+          emojiContainer.appendChild(emoji);
+        }
+      };
+    </script>
+  </body>
+</html>
