@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, send_file
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -65,5 +65,13 @@ def process_charge():
     db.session.commit()
     return render_template('charge.html', balance=user.balance, charge_success=f"{amount}円をチャージしました！")
 
+@app.route('/manifest.json')
+def serve_manifest():
+    return send_file('manifest.json', mimetype='application/manifest+json')
+
+@app.route('/sw.js')
+def serve_sw():
+    return send_file('sw.js', mimetype='application/javascript')
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()@app.route('/sw.js')
